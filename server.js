@@ -51,6 +51,32 @@ apiRoutes.get('/users', function(req, res) {
     });
 });
 
+apiRoutes.post('/auth', function(req, res) {
+    User.finOne({
+        name: req.body.name
+    }, function(err, user) {
+        if (err) throw err;
+
+        if(!user) {
+            res.json( success: false, message: 'Authentication failed. User not found.');
+        } else if(user) {
+            if (user.password != req.body.password) {
+                res.json({ success: false, message: 'Authentication failed. Wrong password'});
+            } else {
+                var token = jwt.sign(user, app.get('superSecret'), {
+                    expiresInMinutes: 1440
+                });
+
+                res.json({
+                    success: true,
+                    message: 'Enjoy your token!'
+                    token: token
+                });
+            }
+        }
+    });
+});
+
 app.use('/api', apiRoutes);
 
 // start server

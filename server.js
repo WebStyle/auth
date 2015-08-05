@@ -58,7 +58,7 @@ apiRoutes.post('/auth', function(req, res) {
         if (err) throw err;
 
         if(!user) {
-            res.json( success: false, message: 'Authentication failed. User not found.');
+            res.json({ success: false, message: 'Authentication failed. User not found.' });
         } else if(user) {
             if (user.password != req.body.password) {
                 res.json({ success: false, message: 'Authentication failed. Wrong password'});

@@ -6,8 +6,8 @@ var mongoose = require('mongoose');
 var jwt = require('jsonwebtoken');
 var config = require('./config');
 var User = require('./app/models/user');
-
 // configuration
+
 var port = process.env.PORT || 8080;
 mongoose.connect(config.database);
 app.set('superSecret', config.secret);
@@ -38,6 +38,20 @@ app.get('/setup', function(req, res) {
     });
 });
 
+// API routes
+var apiRoutes = express.Router();
+
+apiRoutes.get('/', function(req, res) {
+    res.json({ message: 'Welcome to the API'});
+});
+
+apiRoutes.get('/users', function(req, res) {
+    User.find({}, function(err, users) {
+        res.json(users);
+    });
+});
+
+app.use('/api', apiRoutes);
 
 // start server
 app.listen(port);

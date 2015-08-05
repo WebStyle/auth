@@ -21,6 +21,23 @@ app.use(morgan('dev'));
 app.get('/', function(req, res) {
     res.send('The API');
 });
+// setup new user
+app.get('/setup', function(req, res) {
+    // create a sample user
+    var nick = new User({
+        name: 'Farrukh',
+        password: 'password',
+        admin: true
+    });
+
+    nick.save(function (err) {
+        if (err) throw err;
+
+        console.log('New user added');
+        res.json({ success: true });
+    });
+});
+
 
 // start server
 app.listen(port);

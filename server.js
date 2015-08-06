@@ -52,7 +52,7 @@ apiRoutes.get('/users', function(req, res) {
 });
 
 apiRoutes.post('/auth', function(req, res) {
-    User.finOne({
+    User.findOne({
         name: req.body.name
     }, function(err, user) {
         if (err) throw err;
